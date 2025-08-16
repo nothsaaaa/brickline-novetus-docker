@@ -33,14 +33,19 @@ sed -i "26s|.*|local ServerName = \"$SERVER_NAME\"|" "$MASTER_SCRIPT"
 sed -i "24s|.*|local REALIPADDR = \"$BRICKLINE_IP\"|" "$MASTER_SCRIPT"
 sed -i "25s|.*|local REALIP_PORT = $BRICKLINE_PORT|" "$MASTER_SCRIPT"
 
+# Set ClientVer on line 65 if CLIENT is provided
+if [ -n "$CLIENT" ]; then
+    sed -i "65s|.*|    local ClientVer  = \"$CLIENT\"|" "$MASTER_SCRIPT"
+fi
+
 # --- Clean logs ---
 mkdir -p /home/novetus/.wine/drive_c/users/novetus/AppData/Local/Roblox/logs/ 1>/dev/null
 rm -rf /home/novetus/.wine/drive_c/users/novetus/AppData/Local/Roblox/logs/* 1>/dev/null
 
 echo "
 -----------------------------------------------------
-		    NOVETUSDOCKER		    
-  Github: https://github.com/Mollomm1/NovetusDocker
+		    BRICKLINE NOVETUS DOCKER		    
+  Github: https://github.com/nothsaaaa/brickline-novetus-docker
 -----------------------------------------------------
 "
 
