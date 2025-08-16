@@ -4,6 +4,8 @@ A Docker-based solution for deploying low-privilege, headless Novetus servers qu
 
 This version includes support for Brickline, allowing you to list your servers publicly for free.
 
+Forked from [Mollomm1/NovetusDocker](https://github.com/Mollomm1/NovetusDocker)
+
 ---
 
 ## 🚧 Build Instructions

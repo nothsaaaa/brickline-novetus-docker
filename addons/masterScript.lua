@@ -24,7 +24,7 @@
 local REALIPADDR = ""
 local REALIP_PORT = 0
 local ServerName = "New Brickline Server | %MAP% | %CLIENT%"
-local LauncherVersion = "Novetus 1.3 v3.2024.2"
+local LauncherVersion = "Novetus Snapshot v25.9352.18178.1"
 local ServerImage = "" -- Optional: URL to a server image for display on Brickline
 
 --> %MAP% and %CLIENT% are variables and will automatically get replaced by the client and map name.
