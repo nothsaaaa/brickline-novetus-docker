@@ -2,6 +2,8 @@
 
 A Docker-based solution for deploying low-privilege, headless Novetus servers quickly and easily.
 
+This version includes support for Brickline, allowing you to list your servers publicly for free.
+
 ---
 
 ## 🚧 Build Instructions
@@ -37,11 +39,13 @@ docker run -d \
   --name=novetus \
   --restart always \
   -p 53640:53640/udp \
-  -p 127.0.0.1:3000:3000 `# Optional: Track connected players on the server, it is heavely recommended to put this behind a reverse proxy.` \
   -e CLIENT=2012M `# Optional: Select the client version (default: 2012M)` \
   -e MAXPLAYERS=12 `# Optional: Set maximum number of players` \
-  -e PORT=53640 `# Optional: Change the server port` \
+  -e PORT=53640 `# Optional: Change the UDP server port` \
   -e MAP="Z:\\default.rbxl" `# Optional: Set the map path inside the container` \
+  -e SERVER_NAME="My Brickline Server" `# Optional: Custom server name (masterScript)` \
+  -e BRICKLINE_IP="127.0.0.1" `\
+  -e BRICKLINE_PORT=5000 `\
   -v ./mymap.rbxl:/default.rbxl `# Optional: Mount a custom map` \
   novetus
 ```
@@ -50,8 +54,11 @@ docker run -d \
 
 * `CLIENT`: Specifies the Novetus client version.
 * `MAXPLAYERS`: Limits the number of concurrent players.
-* `PORT`: Sets the UDP port the server will use.
+* `PORT`: Sets the UDP port the Novetus server will use.
 * `MAP`: Path to the map inside the container (usually `Z:\\default.rbxl`).
+* `SERVER_NAME`: Custom server name used by `masterScript`.
+* `BRICKLINE_IP`: Custom IP used by `masterScript`.
+* `BRICKLINE_PORT`: Custom port used by `masterScript`.
 * `-v ./mymap.rbxl:/default.rbxl`: Mounts a local map file into the container.
 
 ---
@@ -70,3 +77,6 @@ docker run -d \
 
 **Note:** Versions not listed above are currently unsupported.
 
+---
+
+This version fully integrates `masterScript` support and allows customizing the server without touching internal scripts.
