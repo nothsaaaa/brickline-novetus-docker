@@ -78,5 +78,3 @@ docker run -d \
 **Note:** Versions not listed above are currently unsupported.
 
 ---
-
-This version fully integrates `masterScript` support and allows customizing the server without touching internal scripts.
