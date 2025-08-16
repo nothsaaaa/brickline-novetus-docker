@@ -1,0 +1,11 @@
+# Python
+__pycache__
+
+# Launcher
+Launcher/data
+Launcher/.itch.toml
+Launcher/Newtonsoft.Json.dll
+Launcher/Newtonsoft.Json.xml
+Launcher/NovetusBootstrapper.exe
+Launcher/NovetusBootstrapper.exe.config
+Launcher/NovetusBootstrapper.pdb
