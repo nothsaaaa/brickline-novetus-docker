@@ -11,6 +11,7 @@ export CLIENT=${CLIENT:-"2012M"}
 export SERVER_NAME=${SERVER_NAME:-"New Brickline Server | ${MAP} | ${CLIENT}"}
 export BRICKLINE_IP=${BRICKLINE_IP:-""}
 export BRICKLINE_PORT=${BRICKLINE_PORT:-0}
+export BRICKLINE_IMAGE=${BRICKLINE_IMAGE:-""}
 
 # --- Wine setup ---
 export WINEPREFIX=/home/novetus/.wine
@@ -32,6 +33,7 @@ sed -i "26s|.*|local ServerName = \"$SERVER_NAME\"|" "$MASTER_SCRIPT"
 # Set REALIPADDR and REALIP_PORT on lines 24-25
 sed -i "24s|.*|local REALIPADDR = \"$BRICKLINE_IP\"|" "$MASTER_SCRIPT"
 sed -i "25s|.*|local REALIP_PORT = $BRICKLINE_PORT|" "$MASTER_SCRIPT"
+sed -i "28s|.*|local ServerImage = \"$BRICKLINE_IMAGE\"|" "$MASTER_SCRIPT"
 
 # Set ClientVer on line 65 if CLIENT is provided
 if [ -n "$CLIENT" ]; then
