@@ -65,6 +65,7 @@ local function getPlayerNames()
 	end
 	return table.concat(names, ",")
 end
+end
 
 local function masterServerPinger()
     --> Init
