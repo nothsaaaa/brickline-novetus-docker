@@ -23,8 +23,8 @@
 --> Set REALIP_PORT to the port of your server.
 local REALIPADDR = ""
 local REALIP_PORT = 0
-local ServerName = "New Brickline Server | %MAP% | %CLIENT%"
-local LauncherVersion = "Novetus Snapshot v25.9352.18178.1"
+local ServerName = "New Brickline Server | %CLIENT%"
+local LauncherVersion = "Novetus Snapshot v25.9352.2"
 local ServerImage = "" -- Optional: URL to a server image for display on Brickline
 
 --> %MAP% and %CLIENT% are variables and will automatically get replaced by the client and map name.
@@ -58,6 +58,14 @@ local function getPlayerCount(max)
     return tostring(#count).."/"..tostring(max)
 end
 
+local function getPlayerNames()
+	local names = {}
+	for _, v in ipairs(game.Players:GetChildren()) do
+		table.insert(names, v.Name)
+	end
+	return table.concat(names, ",")
+end
+
 local function masterServerPinger()
     --> Init
     local ID         = rndID(50)
@@ -84,7 +92,7 @@ local function masterServerPinger()
 
     local callServer = Instance.new("Sound", game.Lighting)
         callServer.Name = "Create server"
-        callServer.SoundId = "https://"..masterServerAddr.."/server/create"..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port
+        callServer.SoundId = "https://"..masterServerAddr.."/server/create"..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port.."&playernames="..getPlayerNames():gsub(" ", "%%20")
 
     callServer:remove()
     print("Done creating server on Brickline.")
@@ -94,7 +102,7 @@ local function masterServerPinger()
 
         local keepAlive = Instance.new("Sound", game.Lighting)
             keepAlive.Name = "Pinging Brickline"
-            keepAlive.SoundId = "https://"..masterServerAddr.."/server/keepAlive"..num..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port
+            keepAlive.SoundId = "https://"..masterServerAddr.."/server/keepAlive"..num..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port.."&playernames="..getPlayerNames():gsub(" ", "%%20")
 
         keepAlive:remove()
     end
