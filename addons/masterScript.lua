@@ -24,7 +24,7 @@
 local REALIPADDR = ""
 local REALIP_PORT = 0
 local ServerName = "New Brickline Server | %CLIENT%"
-local LauncherVersion = "Novetus Snapshot Snapshot v25.9352.2"
+local LauncherVersion = "Novetus Snapshot v25.9352.2"
 local ServerImage = "" -- Optional: URL to a server image for display on Brickline
 
 --> %MAP% and %CLIENT% are variables and will automatically get replaced by the client and map name.
@@ -100,7 +100,7 @@ game:GetService("NetworkServer").IncommingConnection:connect(function(name, repl
 		wait(1)
 		timer = timer + 1
 		
-		if timer < 30 then
+		if timer >= 30 then
 			repl:CloseConnection()
 		end
 	end
