@@ -24,12 +24,10 @@
 local REALIPADDR = ""
 local REALIP_PORT = 0
 local ServerName = "New Brickline Server | %CLIENT%"
-local LauncherVersion = "Novetus Snapshot v25.9352.2"
+local LauncherVersion = "Novetus Snapshot Snapshot v25.9352.2"
 local ServerImage = "" -- Optional: URL to a server image for display on Brickline
 
 --> %MAP% and %CLIENT% are variables and will automatically get replaced by the client and map name.
-
-
 
 --#####################
 --##     Script      ##
@@ -47,15 +45,13 @@ local function rndID(length)
 end
 
 local function getPlayerCount(max)
-    local count = game.Players:GetChildren()
-
-    for _, v in ipairs(count) do 
-        if v.Name == "[SERVER]" and not v.Character then
-            return tostring(#count - 1).."/"..tostring(max - 1)
-        end
-    end
-
-    return tostring(#count).."/"..tostring(max)
+	local count = game.Players:GetChildren()
+	for _, v in ipairs(count) do 
+		if v.Name == "[SERVER]" and not v.Character then
+			return tostring(#count - 1).."/"..tostring(max - 1)
+		end
+	end
+	return tostring(#count).."/"..tostring(max)
 end
 
 local function getPlayerNames()
@@ -65,7 +61,7 @@ local function getPlayerNames()
 	end
 	return table.concat(names, ",")
 end
-end
+
 
 local function masterServerPinger()
     --> Init
@@ -93,19 +89,35 @@ local function masterServerPinger()
 
     local callServer = Instance.new("Sound", game.Lighting)
         callServer.Name = "Create server"
-        callServer.SoundId = "https://"..masterServerAddr.."/server/create"..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port.."&playernames="..getPlayerNames():gsub(" ", "%%20")
+        callServer.SoundId = "https://"..masterServerAddr.."/server/create"..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port
 
     callServer:remove()
     print("Done creating server on Brickline.")
 
+game:GetService("NetworkServer").IncommingConnection:connect(function(name, repl)
+	local timer = 0
+	while not repl:GetPlayer() do
+		wait(1)
+		timer = timer + 1
+		
+		if timer < 30 then
+			repl:CloseConnection()
+		end
+	end
+	local isValid = pcall(function() return game:HttpGet("https://"..masterServerAddr.."/game/checkKey/"..repl:GetPlayer().Name, true) end)
+	if isValid then
+		local username = game:HttpGet("https://"..masterServerAddr.."/game/checkKey/"..repl:GetPlayer().Name, true)
+		print("looks like we have " .. username .. " joining!")
+		repl:GetPlayer().Name = username
+	else
+		repl:CloseConnection()
+	end
+end)
+
     while wait(5) do
         num = num + 1
-
-        local keepAlive = Instance.new("Sound", game.Lighting)
-            keepAlive.Name = "Pinging Brickline"
-            keepAlive.SoundId = "https://"..masterServerAddr.."/server/keepAlive"..num..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port.."&playernames="..getPlayerNames():gsub(" ", "%%20")
-
-        keepAlive:remove()
+	local encodedList = getPlayerNames():gsub(" ", "%%20")
+        game:HttpGet("https://"..masterServerAddr.."/server/keepAlive"..num..requestURI.."&players="..getPlayerCount(maxPlayers).."&playitIP="..ipAddr.."&port="..port .. "&playernames="..encodedList, true)
     end
 end
 
@@ -117,11 +129,12 @@ end
 
 function this:PostInit()
     print("\nHello from Brickline (https://discord.gg/7j8C6TV9gN)\n")
-    print("BRICKLINE CONNECTION SCRIPT v3.0")
+    print("BRICKLINE CONNECTION SCRIPT v4.0")
 
     --> If studio type isn't a server, then stop don't execute.
     if game.Lighting.ScriptLoaded.Value ~= "Server" then
-        print("This isn't a server. Stopping master server connection script.") return end
+        print("This isn't a server. Stopping master server connection script.") return
+    end
 
     local MSC = coroutine.create(masterServerPinger)
     coroutine.resume(MSC)
@@ -133,3 +146,4 @@ function AddModule(t)
 end
 
 _G.CSScript_AddModule=AddModule
+
